@@ -1,18 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float speed = 1;
+    private Camera camera;
+
+    private void Start()
     {
-        
+        camera = Camera.main;
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        
+        var mouse = camera.ScreenToWorldPoint(Input.mousePosition);
+
+        mouse.z = 0;
+
+        Vector3 diff = (mouse - transform.position);
+        if (diff.magnitude > speed)
+        {
+            transform.position += diff.normalized * speed;
+        }
+        else
+        {
+            transform.position = mouse;
+        }
     }
 }
