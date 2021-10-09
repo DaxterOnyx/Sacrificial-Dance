@@ -28,8 +28,7 @@ public class ChoregraphieManager : MonoBehaviour
     public float BPSPunchDuration = 0.1f;
     private float BPSTime;
 
-    [Header("Other")] 
-    public GameObject circle;
+    [Header("Other")] public GameObject circle;
 
     public SpriteRenderer ambiance;
     private bool validate = false;
@@ -45,7 +44,7 @@ public class ChoregraphieManager : MonoBehaviour
     private void PoseManagerOnPosing(KeyCode keycode)
     {
         if ((nextInput == keycode && timeBeforeNextMove <= TempoTolerance) ||
-            (previousInput == keycode && timeBeforeNextMove >= Tempo - TempoTolerance))
+            (previousInput == keycode && timeBeforeNextMove >= (Tempo) - TempoTolerance))
         {
             //GOOD MOVE
             Validate();
@@ -102,7 +101,7 @@ public class ChoregraphieManager : MonoBehaviour
     private void Update()
     {
         //BPS
-        BPSTime -= Time.deltaTime;
+        BPSTime -= Time.deltaTime * MusicManager.Speed;
         if (BPSTime <= 0)
         {
             circle.transform.DOPunchPosition(Vector3.down * BPSPunchStrength, BPSPunchDuration, 0, 0);
@@ -110,7 +109,7 @@ public class ChoregraphieManager : MonoBehaviour
         }
 
         //TEMPO
-        timeBeforeNextMove -= Time.deltaTime;
+        timeBeforeNextMove -= Time.deltaTime* MusicManager.Speed;
         //nextMove.transform.localPosition = time2pos(timeBeforeNextMove);
 
         if (timeBeforeNextMove <= TempoPunchDuration / 8f && !TempoPunched)
