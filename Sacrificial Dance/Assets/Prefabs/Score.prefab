@@ -61,13 +61,13 @@ MonoBehaviour:
   scoreBadInput: -10
   scoreCollision: -5
   textComment: {fileID: 5572087472305403010}
-  textExcellent: Excellent
-  textGood: Good
-  textOk: Ok
-  textEarly: Early
-  textLate: Too Late !
-  textBadInput: No !
-  textCollision: Careful !
+  textExcellent: EXCELLENT
+  textGood: GOOD
+  textOk: OK
+  textEarly: EARLY
+  textLate: TOO LATE !
+  textBadInput: NO !
+  textCollision: CAREFUL !
 --- !u!23 &2590307479074319671
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -87,7 +87,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 5782411940357679425, guid: 7d4c11a82d8a3984aa34ffcc8beaee24, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -131,8 +131,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 10000
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7d4c11a82d8a3984aa34ffcc8beaee24, type: 2}
+  m_sharedMaterial: {fileID: 5782411940357679425, guid: 7d4c11a82d8a3984aa34ffcc8beaee24, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -156,13 +156,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.35
+  m_fontSize: 13
   m_fontSizeBase: 13
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 10
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -298,7 +298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8472098735891747637, guid: 3bee09587c3875e43ab5252f69746f22, type: 3}
       propertyPath: m_fontSize
-      value: 10.85
+      value: 10.79
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bee09587c3875e43ab5252f69746f22, type: 3}
