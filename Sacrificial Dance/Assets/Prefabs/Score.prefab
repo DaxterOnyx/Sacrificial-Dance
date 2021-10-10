@@ -67,7 +67,7 @@ MonoBehaviour:
   textEarly: Early
   textLate: Too Late !
   textBadInput: No !
-  textCollision: Attention
+  textCollision: Careful !
 --- !u!23 &2590307479074319671
 MeshRenderer:
   m_ObjectHideFlags: 0
