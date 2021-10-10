@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
+    internal static int MaxScore;
+    
     public float pitchOutFire = 1f;
     public float pitchInFire = 1.4f;
     public float pitchTimeVariation = 1f;
@@ -34,6 +36,7 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
+        MaxScore = thresholds[3];
         _audioSource = GetComponent<AudioSource>();
 
         DeplacementManager.InFire.AddListener(GoInFire);

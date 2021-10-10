@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class RandomPose : MonoBehaviour
 {
     public SpriteRenderer renderer;
-    
+
     private void Start()
     {
         ChoregraphieManager.TempoEvent.AddListener(ChangePos);
@@ -15,6 +15,8 @@ public class RandomPose : MonoBehaviour
 
     private void ChangePos()
     {
-        renderer.sprite = ChoregraphieManager.Move.sprite;
+        var movement = ChoregraphieManager.Move;
+        if (movement != null)
+            renderer.sprite = movement.sprite;
     }
 }
