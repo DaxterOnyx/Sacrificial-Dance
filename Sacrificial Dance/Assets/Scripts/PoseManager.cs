@@ -5,16 +5,14 @@ using UnityEngine;
 
 public class PoseManager : MonoBehaviour
 {
-    internal static PoseManager _poseManager;
     public Movement[] poses = new Movement[0];
     public SpriteRenderer renderer;
 
     public delegate void KeyEvent(KeyCode keyCode);
-    public event KeyEvent Posing;
+    public static event KeyEvent Posing;
     
     private void Start()
     {
-        _poseManager = this;
         if (renderer == null)
         {
             renderer = GetComponent<SpriteRenderer>();

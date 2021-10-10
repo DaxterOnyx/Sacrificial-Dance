@@ -10,80 +10,75 @@ public class ChoregraphieManager : MonoBehaviour
 {
     [Header("MOVE MANAGEMENT")] public GameObject MovePrefab;
     public Movement[] Moves = new Movement[0];
-    private Vector2 direction;
-    private float timeBeforeNextMove = 2;
 
     private GameObject nextMove;
     private KeyCode nextInput;
-    private KeyCode previousInput;
 
-    [Header("TEMPO Punch")] public float Tempo = 2.4f;
-    public float TempoTolerance = 0.1f;
-    public float TempoPunchStrength = 1f;
-    public float TempoPunchDuration = 0.1f;
-    private bool TempoPunched = false;
+    public GameObject ExcellentText;
+    public GameObject GoodText;
+    public GameObject OkText;
+    public GameObject BadText;
+    public GameObject FailText;
 
-    [Header("BPS Punch")] public float BPS = 2;
-    public float BPSPunchStrength = 0.1f;
-    public float BPSPunchDuration = 0.1f;
-    private float BPSTime;
 
-    [Header("Other")] public GameObject circle;
+    enum InputType
+    {
+        Fail,
+        Ok,
+        Good,
+        Excellent
+    }
 
-    public SpriteRenderer ambiance;
-    private bool validate = false;
-    public AudioSource music;
+    private InputType inputType = InputType.Fail;
+
+    private bool input = false;
 
     private void Start()
     {
-        NewMove();
-        PoseManager._poseManager.Posing += PoseManagerOnPosing;
-        music.Play();
+        PoseManager.Posing += PoseManagerOnPosing;
     }
 
     private void PoseManagerOnPosing(KeyCode keycode)
     {
-        if ((nextInput == keycode && timeBeforeNextMove <= TempoTolerance) ||
-            (previousInput == keycode && timeBeforeNextMove >= (Tempo) - TempoTolerance))
+        GameObject text;
+        input = true;
+        if (keycode == nextInput)
         {
-            //GOOD MOVE
-            Validate();
+            switch (inputType)
+            {
+                case InputType.Fail:
+                    text = Instantiate(FailText);
+                    ScoreManager.Fail();
+                    break;
+                case InputType.Ok:
+                    text = Instantiate(OkText);
+                    ScoreManager.Ok();
+                    break;
+                case InputType.Good:
+                    text = Instantiate(GoodText);
+                    ScoreManager.Good();
+                    break;
+                case InputType.Excellent:
+                    text = Instantiate(ExcellentText);
+                    ScoreManager.Excellent();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
         else
         {
-            Unvalidate();
+            text = Instantiate(BadText);
+            ScoreManager.BadInput();
         }
+
+        Destroy(text, 1);
     }
 
-    private void Unvalidate()
+    public void NewMove()
     {
-        Debug.Log("BAD  MOVE " + timeBeforeNextMove);
-        Color ambianceColor = Color.red;
-        ambianceColor.a = ambiance.color.a;
-        ambiance.color = ambianceColor;
-    }
-
-    private void Validate()
-    {
-        validate = true;
-        Debug.Log("GOOD MOVE");
-        Color ambianceColor = Color.green;
-        ambianceColor.a = ambiance.color.a;
-        ambiance.color = ambianceColor;
-    }
-
-    /// <summary>
-    /// On beat of tempo
-    /// </summary>
-    private void NewMove()
-    {
-        //Check if move was be done
-        if (!validate) Unvalidate();
-        validate = false;
-
         //Setup next move
-        nextMove = Instantiate(MovePrefab, transform.position + time2pos(timeBeforeNextMove), Quaternion.identity,
-            transform);
+        nextMove = Instantiate(MovePrefab, transform.position, Quaternion.identity, transform);
         Movement move;
         do
         {
@@ -91,44 +86,47 @@ public class ChoregraphieManager : MonoBehaviour
             move = Moves[random];
         } while (move.key == nextInput);
 
-        previousInput = nextInput;
         nextInput = move.key;
 
         nextMove.GetComponent<SpriteRenderer>().sprite = move.sprite;
-        direction = Random.insideUnitCircle.normalized;
     }
 
-    private void Update()
+    public void StartOk()
     {
-        //BPS
-        BPSTime -= Time.deltaTime * MusicManager.Speed;
-        if (BPSTime <= 0)
-        {
-            circle.transform.DOPunchPosition(Vector3.down * BPSPunchStrength, BPSPunchDuration, 0, 0);
-            BPSTime += BPS;
-        }
-
-        //TEMPO
-        timeBeforeNextMove -= Time.deltaTime* MusicManager.Speed;
-        //nextMove.transform.localPosition = time2pos(timeBeforeNextMove);
-
-        if (timeBeforeNextMove <= TempoPunchDuration / 8f && !TempoPunched)
-        {
-            TempoPunched = true;
-            circle.transform.DOPunchPosition(TempoPunchStrength * Vector3.down, TempoPunchDuration, 0, 0);
-        }
-
-        if (timeBeforeNextMove <= 0)
-        {
-            TempoPunched = false;
-            Destroy(nextMove);
-            timeBeforeNextMove += Tempo;
-            NewMove();
-        }
+        inputType = InputType.Ok;
     }
 
-    private Vector3 time2pos(float time)
+    public void StartGood()
     {
-        return new Vector3(direction.x * (1f - time / Tempo) * 5, direction.y * (1 - time / Tempo) * 5, 0);
+        inputType = InputType.Good;
+    }
+
+    public void StartExcellent()
+    {
+        inputType = InputType.Excellent;
+    }
+
+    public void Tempo()
+    {
+        Destroy(nextMove);
+    }
+
+    public void StopExcellent()
+    {
+        inputType = InputType.Good;
+    }
+
+    public void StopGood()
+    {
+        inputType = InputType.Ok;
+    }
+
+    public void StopOk()
+    {
+        inputType = InputType.Fail;
+        
+        if (!input)
+            ScoreManager.Fail();
+        input = false;
     }
 }

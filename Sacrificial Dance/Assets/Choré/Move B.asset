@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Move B
   m_EditorClassIdentifier: 
   key: 122
-  sprite: {fileID: 21300000, guid: b6d61f9beec3c6e4da028fd2ebaed375, type: 3}
+  sprite: {fileID: 21300000, guid: 7caecece459c59e4f873cd8539e8debc, type: 3}
