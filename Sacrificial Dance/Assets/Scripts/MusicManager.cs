@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
@@ -14,13 +15,10 @@ public class MusicManager : MonoBehaviour
     {
         get
         {
-            float time = 0f;
-            float clipLength = _audioSource.clip.length;
-            while (time + clipLength < previousTime)
-                time += clipLength;
-            return time + _audioSource.time;
+            return _audioSource.time;
         }
     }
+
 
     public static float Speed => _audioSource.pitch;
 
@@ -29,14 +27,18 @@ public class MusicManager : MonoBehaviour
     private float timeEnterFire = -100f;
     private bool _inFire = false;
 
+    private int index = 0;
+    public AudioClip[] clips;
+    public int[] thresholds;
+
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
 
-        _audioSource.Play();
-        
         DeplacementManager.InFire.AddListener(GoInFire);
         DeplacementManager.OutFire.AddListener(GoOutFire);
+        _audioSource.clip = clips[index];
+        _audioSource.Play();
     }
 
     private void GoInFire()
@@ -55,6 +57,14 @@ public class MusicManager : MonoBehaviour
 
     private void Update()
     {
+        if (!_audioSource.isPlaying)
+        {
+            if (ScoreManager.MyScore > thresholds[index]) index++;
+            _audioSource.clip = clips[index];
+            _audioSource.Play();
+
+        }
+        
         var deltaTime = 0f;
         float time = Time;
         if (_inFire)

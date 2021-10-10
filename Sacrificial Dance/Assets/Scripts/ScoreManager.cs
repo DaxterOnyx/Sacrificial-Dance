@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static int MyScore { get; private set; }
     private int Score
     {
         get => score;
         set
         {
             score = value;
+            MyScore = score;
             if (score <= gameOverScore)
             {
                 //TODO GAME OVER   
@@ -19,7 +21,6 @@ public class ScoreManager : MonoBehaviour
             }
 
             text.text = score.ToString();
-            Debug.Log(score);
         }
     }
 
