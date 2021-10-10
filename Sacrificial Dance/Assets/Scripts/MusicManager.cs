@@ -8,10 +8,23 @@ public class MusicManager : MonoBehaviour
     public float pitchTimeVariation = 1f;
     public AnimationCurve pitchVariation = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    public static float Speed = 1;
-    
-    private AudioSource _audioSource;
-    private float timeInFire = 0f;
+    private static float previousTime = 0f;
+
+    public static float Time
+    {
+        get
+        {
+            float time = 0f;
+            float clipLength = _audioSource.clip.length;
+            while (time + clipLength < previousTime)
+                time += clipLength;
+            return time + _audioSource.time;
+        }
+    }
+
+    private static AudioSource _audioSource;
+
+    private float timeEnterFire = -100f;
     private bool _inFire = false;
 
     private void Start()
@@ -21,35 +34,42 @@ public class MusicManager : MonoBehaviour
         DeplacementManager.InFire.AddListener(GoInFire);
         DeplacementManager.OutFire.AddListener(GoOutFire);
     }
-    
+
     private void GoInFire()
     {
         Debug.Log("Infire");
+        timeEnterFire = Time;
         _inFire = true;
     }
-    
+
     private void GoOutFire()
     {
         Debug.Log("OutFire");
+        timeEnterFire = Time;
         _inFire = false;
     }
 
     private void Update()
     {
+        var deltaTime = 0f;
+        float time = Time;
         if (_inFire)
         {
-            timeInFire += Time.deltaTime;
-            if (timeInFire > pitchTimeVariation) timeInFire = pitchTimeVariation;
+            deltaTime = (time - timeEnterFire) / pitchTimeVariation;
         }
         else
         {
-            timeInFire -= Time.deltaTime;
-            if (timeInFire < 0) timeInFire = 0;
+            deltaTime = 1 - ((time - timeEnterFire) / pitchTimeVariation);
         }
 
-        Speed = pitchOutFire +
-                       (pitchInFire - pitchOutFire) * pitchVariation.Evaluate(timeInFire / pitchTimeVariation);
+        if (deltaTime > 1)
+            deltaTime = 1;
+        if (deltaTime < 0)
+            deltaTime = 0;
 
-        _audioSource.pitch = Speed;
+        var speed = pitchOutFire +
+                    (pitchInFire - pitchOutFire) * pitchVariation.Evaluate(deltaTime);
+
+        _audioSource.pitch = speed;
     }
 }
