@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3676001800560139837}
   - component: {fileID: 9078045703369800605}
-  - component: {fileID: 8411736496123201260}
-  - component: {fileID: 1754946544191619371}
+  - component: {fileID: 7352852883311419600}
+  - component: {fileID: 5221167319521860747}
   m_Layer: 0
   m_Name: DancerPrefab
   m_TagString: Untagged
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.05
---- !u!70 &8411736496123201260
+--- !u!70 &7352852883311419600
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,7 +63,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
---- !u!50 &1754946544191619371
+--- !u!50 &5221167319521860747
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
