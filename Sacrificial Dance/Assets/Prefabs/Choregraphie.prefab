@@ -141,8 +141,9 @@ MonoBehaviour:
   Excellent: Excellent
   Good: Good
   Ok: Ok
-  Fail: Too Late !
+  Fail: Early
   BadInput: No !
+  Late: Too Late !
 --- !u!95 &8878108535151812204
 Animator:
   serializedVersion: 3

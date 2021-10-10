@@ -20,9 +20,9 @@ public class ChoregraphieManager : MonoBehaviour
     public string Excellent = "Excellent";
     public string Good = "Good";
     public string Ok = "Ok";
-    public string Fail = "Too Late !";
+    public string Fail = "Early";
     public string BadInput = "No !";
-    
+    public string Late = "Too Late !";
 
     internal static UnityEvent TempoEvent = new UnityEvent();
 
@@ -136,7 +136,10 @@ public class ChoregraphieManager : MonoBehaviour
         inputType = InputType.Fail;
 
         if (!input)
+        {
+            Text.text = Late;
             ScoreManager.Fail();
+        }
         input = false;
     }
 }
