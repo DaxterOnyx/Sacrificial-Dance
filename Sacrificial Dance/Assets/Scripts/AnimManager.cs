@@ -14,6 +14,6 @@ public class AnimManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _animator.speed = MusicManager.Speed;
+        _animator.SetFloat("Time",MusicManager.Time);
     }
 }

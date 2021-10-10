@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d33f2fc0ff54b0e41a94f2adca945179, type: 3}
   m_Name: Move A
   m_EditorClassIdentifier: 
-  key: 97
+  key: 122
   sprite: {fileID: 21300000, guid: 3502a6c5877b93849a3f9fab127f104a, type: 3}
+  callSprite: {fileID: 21300000, guid: 56fc1587edc379446b5c219eebea33ec, type: 3}

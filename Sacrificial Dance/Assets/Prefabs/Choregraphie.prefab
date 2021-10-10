@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8122c681479a745429c40177d7220477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePrefab: {fileID: 163559119341457513, guid: 56e7c1de02f8bf649b7cac81de9081c8, type: 3}
+  CallPrefab: {fileID: 163559119341457513, guid: 56e7c1de02f8bf649b7cac81de9081c8, type: 3}
   Moves:
   - {fileID: 11400000, guid: 9517bfbe1dbb93f45af7f65a1e4400ca, type: 2}
   - {fileID: 11400000, guid: f7c44cb9c21f7bd4f9671b9e4acdc0a4, type: 2}

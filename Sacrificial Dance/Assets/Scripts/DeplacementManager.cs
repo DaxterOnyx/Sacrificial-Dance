@@ -67,4 +67,10 @@ public class DeplacementManager : MonoBehaviour
             OutFire?.Invoke();
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.collider.CompareTag("Player"))
+            ScoreManager.Collision();
+    }
 }

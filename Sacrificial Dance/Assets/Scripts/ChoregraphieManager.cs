@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class ChoregraphieManager : MonoBehaviour
 {
-    [Header("MOVE MANAGEMENT")] public GameObject MovePrefab;
+    [Header("MOVE MANAGEMENT")] public GameObject CallPrefab;
     public Movement[] Moves = new Movement[0];
 
     private GameObject nextMove;
@@ -19,6 +20,8 @@ public class ChoregraphieManager : MonoBehaviour
     public GameObject OkText;
     public GameObject BadText;
     public GameObject FailText;
+
+    internal static UnityEvent TempoEvent = new UnityEvent();
 
 
     enum InputType
@@ -78,7 +81,7 @@ public class ChoregraphieManager : MonoBehaviour
     public void NewMove()
     {
         //Setup next move
-        nextMove = Instantiate(MovePrefab, transform.position, Quaternion.identity, transform);
+        nextMove = Instantiate(CallPrefab, transform);
         Movement move;
         do
         {
@@ -88,7 +91,7 @@ public class ChoregraphieManager : MonoBehaviour
 
         nextInput = move.key;
 
-        nextMove.GetComponent<SpriteRenderer>().sprite = move.sprite;
+        nextMove.GetComponent<SpriteRenderer>().sprite = move.callSprite;
     }
 
     public void StartOk()
@@ -108,6 +111,7 @@ public class ChoregraphieManager : MonoBehaviour
 
     public void Tempo()
     {
+        TempoEvent?.Invoke();
         Destroy(nextMove);
     }
 
@@ -124,7 +128,7 @@ public class ChoregraphieManager : MonoBehaviour
     public void StopOk()
     {
         inputType = InputType.Fail;
-        
+
         if (!input)
             ScoreManager.Fail();
         input = false;
