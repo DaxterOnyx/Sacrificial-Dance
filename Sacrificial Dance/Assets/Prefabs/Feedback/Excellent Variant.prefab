@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 971666759782243923, guid: 3bee09587c3875e43ab5252f69746f22, type: 3}
       propertyPath: m_Name
-      value: Excellent
+      value: Excellent Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6879922225491208575, guid: 3bee09587c3875e43ab5252f69746f22, type: 3}
       propertyPath: m_Pivot.x
@@ -97,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8472098735891747637, guid: 3bee09587c3875e43ab5252f69746f22, type: 3}
       propertyPath: m_text
-      value: Excelent
+      value: Excellent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bee09587c3875e43ab5252f69746f22, type: 3}
