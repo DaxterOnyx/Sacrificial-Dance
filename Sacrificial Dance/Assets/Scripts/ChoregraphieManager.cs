@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -15,11 +16,13 @@ public class ChoregraphieManager : MonoBehaviour
     private GameObject nextMove;
     private KeyCode nextInput;
 
-    public GameObject ExcellentText;
-    public GameObject GoodText;
-    public GameObject OkText;
-    public GameObject BadText;
-    public GameObject FailText;
+    public TextMeshPro Text;
+    public string Excellent = "Excellent";
+    public string Good = "Good";
+    public string Ok = "Ok";
+    public string Fail = "Too Late !";
+    public string BadInput = "No !";
+    
 
     internal static UnityEvent TempoEvent = new UnityEvent();
 
@@ -39,30 +42,30 @@ public class ChoregraphieManager : MonoBehaviour
     private void Start()
     {
         PoseManager.Posing += PoseManagerOnPosing;
+        Text.text = "";
     }
 
     private void PoseManagerOnPosing(KeyCode keycode)
     {
-        GameObject text;
         input = true;
         if (keycode == nextInput)
         {
             switch (inputType)
             {
                 case InputType.Fail:
-                    text = Instantiate(FailText);
+                    Text.text = Fail;
                     ScoreManager.Fail();
                     break;
                 case InputType.Ok:
-                    text = Instantiate(OkText);
+                    Text.text = Ok;
                     ScoreManager.Ok();
                     break;
                 case InputType.Good:
-                    text = Instantiate(GoodText);
+                    Text.text = Good;
                     ScoreManager.Good();
                     break;
                 case InputType.Excellent:
-                    text = Instantiate(ExcellentText);
+                    Text.text = Excellent;
                     ScoreManager.Excellent();
                     break;
                 default:
@@ -71,15 +74,18 @@ public class ChoregraphieManager : MonoBehaviour
         }
         else
         {
-            text = Instantiate(BadText);
+            Text.text = BadInput;
             ScoreManager.BadInput();
         }
-
-        Destroy(text, 1);
     }
 
     public void NewMove()
     {
+        if (nextMove != null)
+        {
+            Destroy(nextMove);
+        }
+
         //Setup next move
         nextMove = Instantiate(CallPrefab, transform);
         Movement move;

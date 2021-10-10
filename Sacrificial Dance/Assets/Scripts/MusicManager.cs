@@ -62,7 +62,6 @@ public class MusicManager : MonoBehaviour
             if (ScoreManager.MyScore > thresholds[index]) index++;
             _audioSource.clip = clips[index];
             _audioSource.Play();
-
         }
         
         var deltaTime = 0f;
@@ -77,9 +76,14 @@ public class MusicManager : MonoBehaviour
         }
 
         if (deltaTime > 1)
+        {
             deltaTime = 1;
+        }
         if (deltaTime < 0)
+        {
             deltaTime = 0;
+            timeEnterFire = -100;
+        }
 
         var speed = pitchOutFire +
                     (pitchInFire - pitchOutFire) * pitchVariation.Evaluate(deltaTime);
