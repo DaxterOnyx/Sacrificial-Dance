@@ -31,6 +31,8 @@ public class ChoregraphieManager : MonoBehaviour
 
     private InputType inputType = InputType.Fail;
 
+    private bool input = false;
+
     private void Start()
     {
         PoseManager.Posing += PoseManagerOnPosing;
@@ -39,6 +41,7 @@ public class ChoregraphieManager : MonoBehaviour
     private void PoseManagerOnPosing(KeyCode keycode)
     {
         GameObject text;
+        input = true;
         if (keycode == nextInput)
         {
             switch (inputType)
@@ -121,5 +124,9 @@ public class ChoregraphieManager : MonoBehaviour
     public void StopOk()
     {
         inputType = InputType.Fail;
+        
+        if (!input)
+            ScoreManager.Fail();
+        input = false;
     }
 }

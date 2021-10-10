@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
@@ -16,6 +17,9 @@ public class ScoreManager : MonoBehaviour
                 //TODO GAME OVER   
                 Debug.Log("FAIL !!!!!!!!!!!!!!!!!!!!!!!!");
             }
+
+            text.text = score.ToString();
+            Debug.Log(score);
         }
     }
 
@@ -28,18 +32,22 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private int badInput = -10;
     [SerializeField] private int collision = -5;
 
+    private TextMeshPro text;
+    
     private static ScoreManager _score;
 
     private void Start()
     {
         _score = this;
+        text = GetComponent<TextMeshPro>();
+        Score = 0;
     }
 
 
-    public static void Excellent() => _score.score += _score.excellent;
-    public static void Good() => _score.score += _score.good;
-    public static void Ok() => _score.score += _score.ok;
-    public static void Fail() => _score.score += _score.fail;
-    public static void BadInput() => _score.score += _score.badInput;
-    public static void Collision() => _score.score += _score.collision;
+    public static void Excellent() => _score.Score += _score.excellent;
+    public static void Good() => _score.Score += _score.good;
+    public static void Ok() => _score.Score += _score.ok;
+    public static void Fail() => _score.Score += _score.fail;
+    public static void BadInput() => _score.Score += _score.badInput;
+    public static void Collision() => _score.Score += _score.collision;
 }

@@ -22,6 +22,8 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    public static float Speed => _audioSource.pitch;
+
     private static AudioSource _audioSource;
 
     private float timeEnterFire = -100f;
@@ -31,6 +33,8 @@ public class MusicManager : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
 
+        _audioSource.Play();
+        
         DeplacementManager.InFire.AddListener(GoInFire);
         DeplacementManager.OutFire.AddListener(GoOutFire);
     }
