@@ -11,13 +11,18 @@ using Random = UnityEngine.Random;
 public class ChoregraphieManager : MonoBehaviour
 {
     [Header("MOVE MANAGEMENT")] public GameObject CallPrefab;
+    public GameObject CallLetterPrefab;
     public Movement[] Moves = new Movement[0];
 
     private GameObject nextMove;
-    private KeyCode nextInput;
+    private GameObject nextLetter;
+    private KeyCode nextInput =KeyCode.F15;
 
     internal static UnityEvent TempoEvent = new UnityEvent();
 
+    public GameObject Circle240Prefab;
+
+    public GameObject Circle120Prefab;
 
     enum InputType
     {
@@ -30,7 +35,7 @@ public class ChoregraphieManager : MonoBehaviour
     private InputType inputType = InputType.Fail;
 
     private bool input = false;
-    KeyCode pastInput;
+    KeyCode pastInput = KeyCode.F15;
 
     private void Start()
     {
@@ -74,8 +79,12 @@ public class ChoregraphieManager : MonoBehaviour
             Destroy(nextMove);
         }
 
+        if (nextLetter != null)
+        {
+            Destroy(nextLetter);
+        }
+
         //Setup next move
-        nextMove = Instantiate(CallPrefab, transform);
         Movement move;
         do
         {
@@ -86,7 +95,13 @@ public class ChoregraphieManager : MonoBehaviour
         pastInput = nextInput;
         nextInput = move.key;
 
+        nextMove = Instantiate(CallPrefab, transform);
         nextMove.GetComponent<SpriteRenderer>().sprite = move.callSprite;
+        if (MusicManager.index == 1)
+        {
+            nextLetter = Instantiate(CallLetterPrefab, transform);
+            nextLetter.GetComponent<SpriteRenderer>().sprite = move.callLetter;
+        }
     }
 
     public void StartOk(int count)
@@ -115,6 +130,24 @@ public class ChoregraphieManager : MonoBehaviour
 
 
         NewMove();
+
+        SpawnCircle(MusicManager.index);
+    }
+
+    GameObject circle;
+
+    private void SpawnCircle(int count)
+    {
+        if (circle != null) Destroy(circle);
+        if (count < 3)
+        {
+            //Pase 1 et 2
+            circle = Instantiate(Circle240Prefab);
+        }
+        else
+        {
+            circle = Instantiate(Circle120Prefab);
+        }
     }
 
     public void StopExcellent(int count)
@@ -135,7 +168,7 @@ public class ChoregraphieManager : MonoBehaviour
 
         inputType = InputType.Fail;
 
-        if (!input)
+        if (!input &&  pastInput != KeyCode.F15)
         {
             ScoreManager.Late();
         }

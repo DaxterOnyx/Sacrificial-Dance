@@ -168,7 +168,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   clips:
-  - {fileID: 8300000, guid: 876a4581d74347943b93b95482d25d82, type: 3}
+  - {fileID: 8300000, guid: 4995d9e3ff782574698baee2d1dfbcf1, type: 3}
   - {fileID: 8300000, guid: 25dfc2c3cad000e4b8ca422a78b8ef0a, type: 3}
   - {fileID: 8300000, guid: 1608874bda7b7594c9e53cf28369087f, type: 3}
   - {fileID: 8300000, guid: ba63443690d5e584195f4d2b9a4dea1e, type: 3}

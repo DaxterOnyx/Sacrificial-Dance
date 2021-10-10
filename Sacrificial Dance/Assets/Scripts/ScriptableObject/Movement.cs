@@ -8,4 +8,5 @@ public class Movement : ScriptableObject
    public KeyCode key = KeyCode.A;
    public Sprite sprite;
    public Sprite callSprite;
+   public Sprite callLetter;
 }
