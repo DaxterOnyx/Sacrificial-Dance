@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AnimManager : MonoBehaviour
 {
+    public float Length = 2.4f;
+    
     private Animator _animator;
     // Start is called before the first frame update
     void Start()
@@ -14,6 +16,6 @@ public class AnimManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _animator.SetFloat("Time",MusicManager.Time/2.4f);
+        _animator.SetFloat("Time",MusicManager.Time/Length);
     }
 }
