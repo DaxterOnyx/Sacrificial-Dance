@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -17,8 +18,7 @@ public class ScoreManager : MonoBehaviour
             MyScore = score;
             if (score <= gameOverGap)
             {
-                //TODO GAME OVER   
-                Debug.Log("FAIL !!!!!!!!!!!!!!!!!!!!!!!!");
+                SceneManager.LoadScene(3);
             }
 
             textScore.text = score.ToString();

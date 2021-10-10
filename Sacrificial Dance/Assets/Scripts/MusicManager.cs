@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
@@ -60,6 +61,11 @@ public class MusicManager : MonoBehaviour
         if (!_audioSource.isPlaying)
         {
             if (ScoreManager.MyScore > thresholds[index]) index++;
+            if (index == clips.Length)
+            {
+                SceneManager.LoadScene(4);
+                return;
+            }
             _audioSource.clip = clips[index];
             _audioSource.Play();
         }

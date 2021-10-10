@@ -13,15 +13,15 @@ public class ChoregraphieManager : MonoBehaviour
     [Header("MOVE MANAGEMENT")] public GameObject CallPrefab;
     public GameObject CallLetterPrefab;
     public Movement[] Moves = new Movement[0];
+    internal static Movement Move;
 
     private GameObject nextMove;
     private GameObject nextLetter;
-    private KeyCode nextInput =KeyCode.F15;
+    private KeyCode nextInput = KeyCode.F15;
 
     internal static UnityEvent TempoEvent = new UnityEvent();
 
     public GameObject Circle240Prefab;
-
     public GameObject Circle120Prefab;
 
     enum InputType
@@ -84,23 +84,22 @@ public class ChoregraphieManager : MonoBehaviour
             Destroy(nextLetter);
         }
 
-        //Setup next move
-        Movement move;
+        //Setup next Move
         do
         {
             var random = Random.Range(0, Moves.Length);
-            move = Moves[random];
-        } while (move.key == nextInput);
+            Move = Moves[random];
+        } while (Move.key == nextInput);
 
         pastInput = nextInput;
-        nextInput = move.key;
+        nextInput = Move.key;
 
         nextMove = Instantiate(CallPrefab, transform);
-        nextMove.GetComponent<SpriteRenderer>().sprite = move.callSprite;
+        nextMove.GetComponent<SpriteRenderer>().sprite = Move.callSprite;
         if (MusicManager.index == 1)
         {
             nextLetter = Instantiate(CallLetterPrefab, transform);
-            nextLetter.GetComponent<SpriteRenderer>().sprite = move.callLetter;
+            nextLetter.GetComponent<SpriteRenderer>().sprite = Move.callLetter;
         }
     }
 
@@ -168,7 +167,7 @@ public class ChoregraphieManager : MonoBehaviour
 
         inputType = InputType.Fail;
 
-        if (!input &&  pastInput != KeyCode.F15)
+        if (!input && pastInput != KeyCode.F15)
         {
             ScoreManager.Late();
         }
