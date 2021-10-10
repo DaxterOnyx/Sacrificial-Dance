@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -10,19 +11,18 @@ using Random = UnityEngine.Random;
 public class ChoregraphieManager : MonoBehaviour
 {
     [Header("MOVE MANAGEMENT")] public GameObject CallPrefab;
+    public GameObject CallLetterPrefab;
     public Movement[] Moves = new Movement[0];
+    internal static Movement Move;
 
     private GameObject nextMove;
-    private KeyCode nextInput;
-
-    public GameObject ExcellentText;
-    public GameObject GoodText;
-    public GameObject OkText;
-    public GameObject BadText;
-    public GameObject FailText;
+    private GameObject nextLetter;
+    private KeyCode nextInput = KeyCode.F15;
 
     internal static UnityEvent TempoEvent = new UnityEvent();
 
+    public GameObject Circle240Prefab;
+    public GameObject Circle120Prefab;
 
     enum InputType
     {
@@ -35,6 +35,7 @@ public class ChoregraphieManager : MonoBehaviour
     private InputType inputType = InputType.Fail;
 
     private bool input = false;
+    KeyCode pastInput = KeyCode.F15;
 
     private void Start()
     {
@@ -43,26 +44,22 @@ public class ChoregraphieManager : MonoBehaviour
 
     private void PoseManagerOnPosing(KeyCode keycode)
     {
-        GameObject text;
+        if (input) return;
         input = true;
-        if (keycode == nextInput)
+        if (keycode == nextInput || keycode == pastInput)
         {
             switch (inputType)
             {
                 case InputType.Fail:
-                    text = Instantiate(FailText);
-                    ScoreManager.Fail();
+                    ScoreManager.Early();
                     break;
                 case InputType.Ok:
-                    text = Instantiate(OkText);
                     ScoreManager.Ok();
                     break;
                 case InputType.Good:
-                    text = Instantiate(GoodText);
                     ScoreManager.Good();
                     break;
                 case InputType.Excellent:
-                    text = Instantiate(ExcellentText);
                     ScoreManager.Excellent();
                     break;
                 default:
@@ -71,66 +68,111 @@ public class ChoregraphieManager : MonoBehaviour
         }
         else
         {
-            text = Instantiate(BadText);
             ScoreManager.BadInput();
         }
-
-        Destroy(text, 1);
     }
 
     public void NewMove()
     {
-        //Setup next move
-        nextMove = Instantiate(CallPrefab, transform);
-        Movement move;
+        if (nextMove != null)
+        {
+            Destroy(nextMove);
+        }
+
+        if (nextLetter != null)
+        {
+            Destroy(nextLetter);
+        }
+
+        //Setup next Move
         do
         {
             var random = Random.Range(0, Moves.Length);
-            move = Moves[random];
-        } while (move.key == nextInput);
+            Move = Moves[random];
+        } while (Move.key == nextInput);
 
-        nextInput = move.key;
+        pastInput = nextInput;
+        nextInput = Move.key;
 
-        nextMove.GetComponent<SpriteRenderer>().sprite = move.callSprite;
+        nextMove = Instantiate(CallPrefab, transform);
+        nextMove.GetComponent<SpriteRenderer>().sprite = Move.callSprite;
+        if (MusicManager.index == 1)
+        {
+            nextLetter = Instantiate(CallLetterPrefab, transform);
+            nextLetter.GetComponent<SpriteRenderer>().sprite = Move.callLetter;
+        }
     }
 
-    public void StartOk()
+    public void StartOk(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Ok;
     }
 
-    public void StartGood()
+    public void StartGood(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Good;
     }
 
-    public void StartExcellent()
+    public void StartExcellent(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Excellent;
     }
 
-    public void Tempo()
+    public void Tempo(int count)
     {
+        if (count > MusicManager.index) return;
         TempoEvent?.Invoke();
         Destroy(nextMove);
+
+
+        NewMove();
+
+        SpawnCircle(MusicManager.index);
     }
 
-    public void StopExcellent()
+    GameObject circle;
+
+    private void SpawnCircle(int count)
     {
+        if (circle != null) Destroy(circle);
+        if (count < 3)
+        {
+            //Pase 1 et 2
+            circle = Instantiate(Circle240Prefab);
+        }
+        else
+        {
+            circle = Instantiate(Circle120Prefab);
+        }
+    }
+
+    public void StopExcellent(int count)
+    {
+        if (count > MusicManager.index) return;
         inputType = InputType.Good;
     }
 
-    public void StopGood()
+    public void StopGood(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Ok;
     }
 
-    public void StopOk()
+    public void StopOk(int count)
     {
+        if (count > MusicManager.index) return;
+
         inputType = InputType.Fail;
 
-        if (!input)
-            ScoreManager.Fail();
+        if (!input && pastInput != KeyCode.F15)
+        {
+            ScoreManager.Late();
+        }
+
+        pastInput = KeyCode.F15;
         input = false;
     }
 }

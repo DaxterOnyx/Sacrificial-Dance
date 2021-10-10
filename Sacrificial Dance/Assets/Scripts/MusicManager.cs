@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class MusicManager : MonoBehaviour
     private float timeEnterFire = -100f;
     private bool _inFire = false;
 
-    private int index = 0;
+    internal static int index = 0;
     public AudioClip[] clips;
     public int[] thresholds;
 
@@ -60,9 +61,13 @@ public class MusicManager : MonoBehaviour
         if (!_audioSource.isPlaying)
         {
             if (ScoreManager.MyScore > thresholds[index]) index++;
+            if (index == clips.Length)
+            {
+                SceneManager.LoadScene(4);
+                return;
+            }
             _audioSource.clip = clips[index];
             _audioSource.Play();
-
         }
         
         var deltaTime = 0f;
@@ -77,9 +82,14 @@ public class MusicManager : MonoBehaviour
         }
 
         if (deltaTime > 1)
+        {
             deltaTime = 1;
+        }
         if (deltaTime < 0)
+        {
             deltaTime = 0;
+            timeEnterFire = -100;
+        }
 
         var speed = pitchOutFire +
                     (pitchInFire - pitchOutFire) * pitchVariation.Evaluate(deltaTime);

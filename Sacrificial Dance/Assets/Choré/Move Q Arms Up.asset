@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d33f2fc0ff54b0e41a94f2adca945179, type: 3}
-  m_Name: Move B
+  m_Name: Move Q Arms Up
   m_EditorClassIdentifier: 
-  key: 122
-  sprite: {fileID: 21300000, guid: 7caecece459c59e4f873cd8539e8debc, type: 3}
-  callSprite: {fileID: 21300000, guid: 532526e4f2dc3674f8e87b3cef89a88a, type: 3}
+  key: 113
+  sprite: {fileID: 21300000, guid: dc4cd3eafb17dd04baae799073726f09, type: 3}
+  callSprite: {fileID: 21300000, guid: 91563c7007f56664f94e99ebfdc12712, type: 3}
+  callLetter: {fileID: 21300000, guid: 5ba7a502115d4f942a3846c4560b3f05, type: 3}
