@@ -55,5 +55,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: DancerPrefab Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8189728707205345466, guid: 82c2546198fb6c14fb0da2ed68cae1e6, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189728707205345466, guid: 82c2546198fb6c14fb0da2ed68cae1e6, type: 3}
+      propertyPath: m_Constraints
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9078045703369800605, guid: 82c2546198fb6c14fb0da2ed68cae1e6, type: 3}
+    - {fileID: 4596965033000275241, guid: 82c2546198fb6c14fb0da2ed68cae1e6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 82c2546198fb6c14fb0da2ed68cae1e6, type: 3}
