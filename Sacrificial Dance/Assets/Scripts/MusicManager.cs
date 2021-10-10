@@ -27,7 +27,7 @@ public class MusicManager : MonoBehaviour
     private float timeEnterFire = -100f;
     private bool _inFire = false;
 
-    private int index = 0;
+    internal static int index = 0;
     public AudioClip[] clips;
     public int[] thresholds;
 

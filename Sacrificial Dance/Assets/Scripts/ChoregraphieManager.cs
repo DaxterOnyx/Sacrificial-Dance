@@ -16,14 +16,6 @@ public class ChoregraphieManager : MonoBehaviour
     private GameObject nextMove;
     private KeyCode nextInput;
 
-    public TextMeshPro Text;
-    public string Excellent = "Excellent";
-    public string Good = "Good";
-    public string Ok = "Ok";
-    public string Fail = "Early";
-    public string BadInput = "No !";
-    public string Late = "Too Late !";
-
     internal static UnityEvent TempoEvent = new UnityEvent();
 
 
@@ -38,34 +30,31 @@ public class ChoregraphieManager : MonoBehaviour
     private InputType inputType = InputType.Fail;
 
     private bool input = false;
+    KeyCode pastInput;
 
     private void Start()
     {
         PoseManager.Posing += PoseManagerOnPosing;
-        Text.text = "";
     }
 
     private void PoseManagerOnPosing(KeyCode keycode)
     {
+        if (input) return;
         input = true;
-        if (keycode == nextInput)
+        if (keycode == nextInput || keycode == pastInput)
         {
             switch (inputType)
             {
                 case InputType.Fail:
-                    Text.text = Fail;
-                    ScoreManager.Fail();
+                    ScoreManager.Early();
                     break;
                 case InputType.Ok:
-                    Text.text = Ok;
                     ScoreManager.Ok();
                     break;
                 case InputType.Good:
-                    Text.text = Good;
                     ScoreManager.Good();
                     break;
                 case InputType.Excellent:
-                    Text.text = Excellent;
                     ScoreManager.Excellent();
                     break;
                 default:
@@ -74,7 +63,6 @@ public class ChoregraphieManager : MonoBehaviour
         }
         else
         {
-            Text.text = BadInput;
             ScoreManager.BadInput();
         }
     }
@@ -95,51 +83,64 @@ public class ChoregraphieManager : MonoBehaviour
             move = Moves[random];
         } while (move.key == nextInput);
 
+        pastInput = nextInput;
         nextInput = move.key;
 
         nextMove.GetComponent<SpriteRenderer>().sprite = move.callSprite;
     }
 
-    public void StartOk()
+    public void StartOk(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Ok;
     }
 
-    public void StartGood()
+    public void StartGood(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Good;
     }
 
-    public void StartExcellent()
+    public void StartExcellent(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Excellent;
     }
 
-    public void Tempo()
+    public void Tempo(int count)
     {
+        if (count > MusicManager.index) return;
         TempoEvent?.Invoke();
         Destroy(nextMove);
+
+
+        NewMove();
     }
 
-    public void StopExcellent()
+    public void StopExcellent(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Good;
     }
 
-    public void StopGood()
+    public void StopGood(int count)
     {
+        if (count > MusicManager.index) return;
         inputType = InputType.Ok;
     }
 
-    public void StopOk()
+    public void StopOk(int count)
     {
+        if (count > MusicManager.index) return;
+
         inputType = InputType.Fail;
 
         if (!input)
         {
-            Text.text = Late;
-            ScoreManager.Fail();
+            ScoreManager.Late();
         }
+
+        pastInput = KeyCode.F15;
         input = false;
     }
 }

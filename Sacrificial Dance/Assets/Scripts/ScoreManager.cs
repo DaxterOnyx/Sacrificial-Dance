@@ -7,6 +7,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public static int MyScore { get; private set; }
+
     private int Score
     {
         get => score;
@@ -14,41 +15,86 @@ public class ScoreManager : MonoBehaviour
         {
             score = value;
             MyScore = score;
-            if (score <= gameOverScore)
+            if (score <= gameOverGap)
             {
                 //TODO GAME OVER   
                 Debug.Log("FAIL !!!!!!!!!!!!!!!!!!!!!!!!");
             }
 
-            text.text = score.ToString();
+            textScore.text = score.ToString();
         }
     }
 
     private int score = 0;
-    [SerializeField] private int gameOverScore = -25;
-    [SerializeField] private int excellent = 50;
-    [SerializeField] private int good = 30;
-    [SerializeField] private int ok = 10;
-    [SerializeField] private int fail = 0;
-    [SerializeField] private int badInput = -10;
-    [SerializeField] private int collision = -5;
 
-    private TextMeshPro text;
-    
+    [Header("Score")] public TextMeshPro textScore;
+    [SerializeField] private int gameOverGap = -25;
+    [SerializeField] private int scoreExcellent = 50;
+    [SerializeField] private int scoreGood = 30;
+    [SerializeField] private int scoreOk = 10;
+    [SerializeField] private int scoreEarly = 0;
+    [SerializeField] private int scoreLate = 0;
+    [SerializeField] private int scoreBadInput = -10;
+    [SerializeField] private int scoreCollision = -5;
+
+    [Header("Comment")] public TextMeshPro textComment;
+    public string textExcellent = "Excellent";
+    public string textGood = "Good";
+    public string textOk = "Ok";
+    public string textEarly = "Early";
+    public string textLate = "Too Late !";
+    public string textBadInput = "No !";
+    public string textCollision = "Attention";
+
     private static ScoreManager _score;
 
     private void Start()
     {
         _score = this;
-        text = GetComponent<TextMeshPro>();
         Score = 0;
+        textComment.text = "";
     }
 
 
-    public static void Excellent() => _score.Score += _score.excellent;
-    public static void Good() => _score.Score += _score.good;
-    public static void Ok() => _score.Score += _score.ok;
-    public static void Fail() => _score.Score += _score.fail;
-    public static void BadInput() => _score.Score += _score.badInput;
-    public static void Collision() => _score.Score += _score.collision;
+    public static void Excellent()
+    {
+        _score.textComment.text = _score.textExcellent;
+        _score.Score += _score.scoreExcellent;
+    }
+
+    public static void Good()
+    {
+        _score.textComment.text = _score.textGood;
+        _score.Score += _score.scoreGood;
+    }
+
+    public static void Ok()
+    {
+        _score.textComment.text = _score.textOk;
+        _score.Score += _score.scoreOk;
+    }
+
+    public static void Early()
+    {
+        _score.textComment.text = _score.textEarly;
+        _score.Score += _score.scoreEarly;
+    }
+
+    public static void Late()
+    {
+        _score.textComment.text = _score.textLate;
+        _score.Score += _score.scoreLate;
+    }
+
+    public static void BadInput()
+    {
+        _score.textComment.text = _score.textBadInput;
+        _score.Score += _score.scoreBadInput;
+    }
+
+    public static void Collision()
+    {
+        _score.textComment.text = _score.textCollision;
+        _score.Score += _score.scoreCollision;
+    }
 }
